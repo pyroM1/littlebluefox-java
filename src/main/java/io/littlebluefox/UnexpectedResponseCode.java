@@ -16,4 +16,9 @@ public class UnexpectedResponseCode extends Exception {
     public Integer getCode() {
         return this.code;
     }
+
+    public String getMessage() {
+        return "Unexpected response code: got " +
+            this.code + " but want " + this.expectedCode;
+    }
 }
