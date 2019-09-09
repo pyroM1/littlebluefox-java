@@ -39,7 +39,7 @@ public class Client {
 
         conn.setRequestMethod("POST");
         conn.setRequestProperty("User-Agent", "LittleBlueFox java client");
-        conn.setRequestProperty("Authorization", "Bearer: " + this.accessToken);
+        conn.setRequestProperty("Authorization", "Bearer " + this.accessToken);
 
         conn.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
