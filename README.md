@@ -12,6 +12,10 @@
     // ...
     String accessToken = "<your-access-token>";
     Client client = new Client(accessToken, "https://<littlebluefox-endpoint-url>");
+
+    client.setReadTimeout(3000); // optional; default 8000
+    client.setConnectTimeout(2000); // optional; default 8000
+
     this.lbfClient = client;
     // ...
 

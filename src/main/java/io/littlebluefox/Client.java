@@ -10,18 +10,34 @@ import org.json.simple.JSONObject;
 public class Client {
     public static final String defaultEndpointURL = "https://events.littlebluefox.io/";
     public static final Integer expectedResponseCode = 202;
+    public static final Integer defaultConnectTimeout = 8000;
+    public static final Integer defaultReadTimeout = 8000;
 
     private String endpointURL;
     private String accessToken;
+    private Integer connectTimeout;
+    private Integer readTimeout;
 
     public Client(String accessToken) {
         this.accessToken = accessToken;
         this.endpointURL = this.defaultEndpointURL;
+        this.connectTimeout = this.defaultConnectTimeout;
+        this.readTimeout = this.defaultReadTimeout;
     }
 
     public Client(String accessToken, String endpointURL) {
         this.accessToken = accessToken;
         this.endpointURL = endpointURL;
+        this.connectTimeout = this.defaultConnectTimeout;
+        this.readTimeout = this.defaultReadTimeout;
+    }
+
+    public void setReadTimeout(Integer value) {
+        this.readTimeout = value;
+    }
+
+    public void setConnectTimeout(Integer value) {
+        this.connectTimeout = value;
     }
 
     public String getEndpointURL() {
@@ -40,6 +56,9 @@ public class Client {
         conn.setRequestMethod("POST");
         conn.setRequestProperty("User-Agent", "LittleBlueFox java client");
         conn.setRequestProperty("Authorization", "Bearer " + this.accessToken);
+
+        conn.setReadTimeout(this.readTimeout);
+        conn.setConnectTimeout(this.connectTimeout);
 
         conn.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
