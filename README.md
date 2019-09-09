@@ -13,8 +13,11 @@
     String accessToken = "<your-access-token>";
     Client client = new Client(accessToken, "https://<littlebluefox-endpoint-url>");
 
-    client.setReadTimeout(3000); // optional; default 8000
-    client.setConnectTimeout(2000); // optional; default 8000
+    // optional:
+    client.setReadTimeout(3000); // default: 8000
+    client.setConnectTimeout(2000); // default: 8000
+    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("...", 8080));
+    client.setProxy(proxy);
 
     this.lbfClient = client;
     // ...

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.Proxy;
 import org.json.simple.JSONObject;
 
 public class Client {
@@ -17,6 +18,7 @@ public class Client {
     private String accessToken;
     private Integer connectTimeout;
     private Integer readTimeout;
+    private Proxy proxy;
 
     public Client(String accessToken) {
         this.accessToken = accessToken;
@@ -40,6 +42,10 @@ public class Client {
         this.connectTimeout = value;
     }
 
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
     public String getEndpointURL() {
         return this.endpointURL;
     }
@@ -51,7 +57,14 @@ public class Client {
         java.io.IOException {
 
         URL url = new URL(this.endpointURL);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        HttpURLConnection conn;
+
+        if (this.proxy == null) {
+            conn = (HttpURLConnection) url.openConnection();
+        } else {
+            conn = (HttpURLConnection) url.openConnection(this.proxy);
+        }
 
         conn.setRequestMethod("POST");
         conn.setRequestProperty("User-Agent", "LittleBlueFox java client");
