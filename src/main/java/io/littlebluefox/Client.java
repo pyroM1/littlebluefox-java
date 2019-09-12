@@ -2,23 +2,25 @@ package io.littlebluefox;
 
 // import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.PasswordAuthentication;
 import java.net.Proxy;
-import org.json.simple.JSONObject;
+import java.net.URL;
 
 public class Client {
     public static final String defaultEndpointURL = "https://events.littlebluefox.io/";
-    public static final Integer expectedResponseCode = 202;
-    public static final Integer defaultConnectTimeout = 8000;
-    public static final Integer defaultReadTimeout = 8000;
+    public static final int expectedResponseCode = 202;
+    public static final int defaultConnectTimeout = 8000;
+    public static final int defaultReadTimeout = 8000;
 
     private String endpointURL;
     private String accessToken;
-    private Integer connectTimeout;
-    private Integer readTimeout;
+    private int connectTimeout;
+    private int readTimeout;
     private Proxy proxy;
+    private String proxyLogin;
+    private String proxyPass;
 
     public Client(String accessToken) {
         this.accessToken = accessToken;
@@ -50,6 +52,11 @@ public class Client {
         return this.endpointURL;
     }
 
+    public void setProxyCredencial(String proxyLogin, String proxyPass) {
+        this.proxyLogin = proxyLogin;
+        this.proxyPass = proxyPass;
+    }
+
     public void push(Event event) throws
         UnexpectedResponseCode,
         java.net.MalformedURLException,
@@ -64,6 +71,14 @@ public class Client {
             conn = (HttpURLConnection) url.openConnection();
         } else {
             conn = (HttpURLConnection) url.openConnection(this.proxy);
+            if (proxyLogin != null && proxyPass != null) {
+                Authenticator.setDefault(new Authenticator() {
+
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(proxyLogin, proxyPass.toCharArray());
+                    }
+                });
+            }
         }
 
         conn.setRequestMethod("POST");
