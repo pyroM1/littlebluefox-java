@@ -3,17 +3,17 @@ package io.littlebluefox;
 /** The Enum EventType. */
 public enum EventType {
 
+    /** When using it has successfully authenticated (good username and password). */
+    AUTHENTICATION_SUCCESS("authentication_success"),
+
     /** When a user asks to display the login form. */
     AUTHENTICATION_REQUEST("authentication_request"),
 
-    /** When using it has successfully authenticated (good username and password). */
+    /** When an error occurred during the authentication (bad password for example). */
     AUTHENTICATION_FAILURE("authentication_failure"),
 
-    /** The authentication failure unknown user. */
+    /** When emai/login is unknown in your services. */
     AUTHENTICATION_FAILURE_UNKNOWN_USER("authentication_failure_unknown_user"),
-
-    /** On success authentication. */
-    AUTHENTICATION_SUCCESS("authentication_success"),
 
     /** A user has requested to display the password change page or form. */
     PASSWORD_UPDATE_REQUEST("password_update_request"),

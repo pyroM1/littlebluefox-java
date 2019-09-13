@@ -36,11 +36,21 @@ public class Client {
         this.readTimeout = this.defaultReadTimeout;
     }
 
-    public void setReadTimeout(Integer value) {
+    /**
+     * Read timeout value in milliseconds.
+     * 
+     * @param value
+     */
+    public void setReadTimeout(int value) {
         this.readTimeout = value;
     }
-
-    public void setConnectTimeout(Integer value) {
+  
+    /**
+     * Connect timeout value in milliseconds.
+     * 
+     * @param value
+     */
+    public void setConnectTimeout(int value) {
         this.connectTimeout = value;
     }
 
