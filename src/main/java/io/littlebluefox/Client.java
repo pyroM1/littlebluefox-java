@@ -19,8 +19,6 @@ public class Client {
     private int connectTimeout;
     private int readTimeout;
     private Proxy proxy;
-    private String proxyLogin;
-    private String proxyPass;
 
     public Client(String accessToken) {
         this.accessToken = accessToken;
@@ -62,11 +60,6 @@ public class Client {
         return this.endpointURL;
     }
 
-    public void setProxyCredencial(String proxyLogin, String proxyPass) {
-        this.proxyLogin = proxyLogin;
-        this.proxyPass = proxyPass;
-    }
-
     public void push(Event event) throws
         UnexpectedResponseCode,
         java.net.MalformedURLException,
@@ -81,14 +74,6 @@ public class Client {
             conn = (HttpURLConnection) url.openConnection();
         } else {
             conn = (HttpURLConnection) url.openConnection(this.proxy);
-            if (proxyLogin != null && proxyPass != null) {
-                Authenticator.setDefault(new Authenticator() {
-
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(proxyLogin, proxyPass.toCharArray());
-                    }
-                });
-            }
         }
 
         conn.setRequestMethod("POST");
